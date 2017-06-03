@@ -1,15 +1,92 @@
 ---
 layout: default
-title: About Hank Quinlan
+title: Interactive Music Therapy
 ---
 
 		<div class="about">
-			<h1>About</h1>
-			<p>You can optionally insert a brief bio here. You went to this school, you studied that, you now work in this field with research interests in that subject. At your previous position at this place, you worked on this or that. You can list some of your significant accomplishments, awards, or recognition here as well. You live in this city with these animals and people. In your free time you like X, Y, and Z.</p>
+			<h1>Activity</h1>
+			<p>Listen to the five selections of music and answer the corresponding survey questions.</p>
 
-			<ul class="contacts">
-				<li><a href="#">@TwitterHandle</a></li>
-				<li><a href="#">Your Departmental Webpage</a></li>
-				<li><a href="#">Another site you want to link to</a></li>
-				</ul>
+<!-- begin quiz script -->
+<script>
+function finish() {
+	var ext = '.html';
+	var results = new Array("none","High_stress","Moderate_stress","Low_stress");
+	var nums = new Array(4);
+	for(var i = 0; i < nums.length; i++) nums[i] = 0;
+	for(var i = 1; i <= 5; i++) {
+		var q = document.forms['quiz'].elements['question_'+i];
+		if(q[0].type=='checkbox') {
+			var n = 0;
+		}
+		for(var j = 0; j < q.length; j++) {
+			if(q[j].checked) {
+				var a = q[j].value.split(',');
+				for(var k = 0; k < a.length; k++) {
+					nums[a[k]]++;
+				}
+				if(q[j].type=='radio') break;
+				else n++;
+			}
+			if(j == q.length-1&&q[j].type=='radio') {nums[0]++;}
+		}
+		if(q[0].type=='checkbox'&&((document.forms['quiz'].elements['question_'+i+'_min']&&n<document.forms['quiz'].elements['question_'+i+'_min'].value)||(document.forms['quiz'].elements['question_'+i+'_max']&&n>document.forms['quiz'].elements['question_'+i+'_max'].value))) nums[0]++;
+	}
+	var j = new Array('0');
+	for (i in nums) if(nums[i]>nums[j[0]]){j=new Array(''+i);} else if(nums[i]==nums[j[0]])j[j.length] = i;
+	//var o = '';for(var i in results)o+=results[i]+'='+nums[i]+'\n';
+	//alert(o);
+	if(nums[0]!=0) {
+		alert('You missed or incorrectly answered '+nums[0]+' questions!');
+	}
+	else if(j[0]==0) {
+		alert('No result could be determined.');
+	}
+	else {
+		location = results[j[0]]+ext;
+	}
+}
+</script>
+<!-- end quiz script -->          
+<!-- begin quiz html -->
+<form name="quiz" action="javascript:finish();">
+<fieldset style="width:300px;">
+<legend><strong>How did selection #1 affect your stress levels?</strong> </legend>
+<font size="2" face="Verdana, Arial, Helvetica, sans-serif">
+<input name="question_1" type="radio" value="1"> Increased</font><br /><font size="2" face="Verdana, Arial, Helvetica, sans-serif">
+<input name="question_1" type="radio" value="2"> No effect</font><br /><font size="2" face="Verdana, Arial, Helvetica, sans-serif">
+<input name="question_1" type="radio" value="3"> Decreased</font><br />
+</fieldset>
+<br /><br /><fieldset style="width:300px;">
+<legend><strong>How did selection #2 affect your stress levels?</strong> </legend>
+<font size="2" face="Verdana, Arial, Helvetica, sans-serif">
+<input name="question_2" type="radio" value="1"> Increased</font><br /><font size="2" face="Verdana, Arial, Helvetica, sans-serif">
+<input name="question_2" type="radio" value="2"> No effect</font><br /><font size="2" face="Verdana, Arial, Helvetica, sans-serif">
+<input name="question_2" type="radio" value="3"> Decreased</font><br />
+</fieldset>
+<br /><br /><fieldset style="width:300px;">
+<legend><strong>How did selection #3 affect your stress levels?</strong> </legend>
+<font size="2" face="Verdana, Arial, Helvetica, sans-serif">
+<input name="question_3" type="radio" value="1"> Increased</font><br /><font size="2" face="Verdana, Arial, Helvetica, sans-serif">
+<input name="question_3" type="radio" value="2"> No effect</font><br /><font size="2" face="Verdana, Arial, Helvetica, sans-serif">
+<input name="question_3" type="radio" value="3"> Decreased</font><br />
+</fieldset>
+<br /><br /><fieldset style="width:300px;">
+<legend><strong>How did selection #4 affect your stress levels?</strong> </legend>
+<font size="2" face="Verdana, Arial, Helvetica, sans-serif">
+<input name="question_4" type="radio" value="1"> Increased</font><br /><font size="2" face="Verdana, Arial, Helvetica, sans-serif">
+<input name="question_4" type="radio" value="2"> No effect</font><br /><font size="2" face="Verdana, Arial, Helvetica, sans-serif">
+<input name="question_4" type="radio" value="3"> Decreased</font><br />
+</fieldset>
+<br /><br /><fieldset style="width:300px;">
+<legend><strong>How did selection #5 affect your stress levels?</strong> </legend>
+<font size="2" face="Verdana, Arial, Helvetica, sans-serif">
+<input name="question_5" type="radio" value="1"> Increased</font><br /><font size="2" face="Verdana, Arial, Helvetica, sans-serif">
+<input name="question_5" type="radio" value="2"> No effect</font><br /><font size="2" face="Verdana, Arial, Helvetica, sans-serif">
+<input name="question_5" type="radio" value="3"> Decreased</font><br />
+</fieldset>
+<br /><br /> <INPUT TYPE="submit" value="Finish">
+ <INPUT TYPE="reset" value="Reset">
+</form>
+<!-- end quiz html -->          
 		</div>
